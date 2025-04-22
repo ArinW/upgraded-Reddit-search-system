@@ -1,94 +1,92 @@
 # Reddit-recommendation-system
 
-**Project Title:** Intelligent Reddit Recommendation System using IR and Web Agent Techniques
 
----
+# Reddit Recommendation System with IR + Web Agent
 
-**1. Importance and Motivation**
+A smart recommendation system for Reddit that combines Information Retrieval techniques and Web Agent automation to deliver personalized, relevant content—helping users discover high-quality posts beyond their usual feed.
 
-Reddit is a rich platform of user-generated content spanning thousands of communities. Yet, its native recommendation system is limited. This project addresses the problem of:
+![Architecture](path/to/system_architecture.png)
 
-- Discovering new but relevant content.
-- Surfacing quality posts outside a user's immediate subscriptions.
-- Leveraging semantic content understanding for personalized recommendations.
+## Features
 
-It combines Information Retrieval (IR) and Web Agent techniques to enhance Reddit exploration.
+- Semantic search over Reddit posts using embeddings or TF-IDF
+- Personalized recommendations based on user interests or upvote history
+- Web Agent to collect and update live Reddit data
+- Web interface for query-based search and interaction
+- Evaluation framework for measuring personalization quality
 
----
+## Project Structure
 
-**2. Usefulness / Applications**
+```
+reddit-recommender/
+├── data/                 # Stored Reddit post data
+├── src/                  # Core scripts: crawler, IR engine, personalization
+│   ├── crawler.py
+│   ├── ir_engine.py
+│   ├── recommend.py
+│   └── evaluate.py
+├── app/                  # Streamlit app
+│   └── app.py
+├── demo_notebooks/       # Interactive walkthroughs
+├── requirements.txt
+├── README.md
+└── system_architecture.png
+```
 
-- Recommend relevant Reddit posts based on a user query or upvote history.
-- Suggest subreddits or threads for new users based on reading patterns.
-- Use real-time or periodic scraping to ensure fresh content.
-- Serve as a portfolio project to demonstrate skills in NLP, search systems, and recommendation engines.
+## Web Demo
 
----
+Run the Streamlit interface locally:
 
-**3. Step-by-Step Development Plan**
+```bash
+pip install -r requirements.txt
+streamlit run app/app.py
+```
 
-**Step 1: Define Scope**
-- Choose recommendation target: post, subreddit, or comment.
-- Decide if the system will be query-based or history-based.
+### Interface Features:
+- Input a search query (e.g., "AI in healthcare")
+- View top Reddit post matches
+- Filter by subreddit, recency, or user profile
+- (Optional) Rate post relevance to improve personalization
 
-**Step 2: Data Collection**
-- Use Reddit API or Pushshift to collect:
-  - Post metadata (title, body, subreddit, timestamp, upvotes)
-  - User behavior (if building a personalized engine)
-  - Comments (for deeper semantic features)
+## How It Works
 
-**Step 3: Web Agent Design**
-- Implement a crawler or API wrapper that:
-  - Handles pagination and rate-limiting
-  - Stores content in a structured format (JSON, SQLite)
+1. Data Collection: Crawler pulls posts from Reddit via API.
+2. IR Pipeline: Text is vectorized using TF-IDF or embeddings (e.g., OpenAI or SBERT).
+3. Ranking: Similarity scores computed for each post (cosine similarity or BM25).
+4. Personalization Layer: Re-ranks posts based on a user’s history or simulated preferences.
+5. Interface: Streamlit app enables querying, filtering, and interaction.
+6. Evaluation: Offline metrics (NDCG, diversity) and mock feedback used to assess personalization quality.
 
-**Step 4: Text Preprocessing**
-- Clean text (lowercase, remove stopwords)
-- Tokenize and optionally stem/lemmatize
-- Extract features like named entities or key phrases
+## Evaluation: Measuring Personalization
 
-**Step 5: Indexing with IR**
-- Choose between:
-  - TF-IDF vectors with cosine similarity
-  - Sentence-BERT or OpenAI Embeddings + FAISS
-  - Elasticsearch for hybrid ranking
+- Offline: Run `evaluate.py` using mock user profiles
+- Metrics: NDCG, Personalization@K, Intra-list diversity, Serendipity
+- Comparison: Personalized vs. non-personalized outputs
+- User Study (optional): Ask users to rate result sets
 
-**Step 6: Recommendation Engine**
-- Build logic for:
-  - Query-to-post matching (like semantic search)
-  - Post-to-post similarity (for "you might also like")
-  - History-based post or subreddit suggestions
+## Example Commands
 
-**Step 7: Ranking & Filtering**
-- Apply scoring rules using IR similarity, time decay, and popularity.
-- Consider diversity metrics to avoid echo chambers.
+```bash
+# Recommend posts based on a query
+python src/recommend.py --query "best LLMs for education" --top_k 5
 
-**Step 8: Interface / Demo App**
-- Use Streamlit, Flask, or FastAPI
-- Components:
-  - Search bar or user profile input
-  - Ranked list of recommended posts
-  - Filters for subreddit, time, or score
+# Recommend based on user history
+python src/recommend.py --user mock_user --mode history
+```
 
-**Step 9: Evaluation**
-- Use precision@k, recall@k if ground truth available
-- Manual evaluation for relevance
-- User feedback loop (if deployed)
+## TODOs / Future Work
 
----
+- [ ] Deploy Streamlit app to HuggingFace Spaces
+- [ ] Add feedback-based online learning loop
+- [ ] Support subreddit recommendation
+- [ ] Add caching layer for faster retrieval
 
-**4. Bonus Extensions**
-- Summarize posts with GPT or a summarization model.
-- Include comment sentiment in ranking.
-- User clustering or community detection for group recommendations.
-- Logging user interactions for online learning.
+## Author
 
----
+Yile Wang  
+M.S. in Data Science | NLP + IR + ML Engineer  
+GitHub: [@arinwangyile](https://github.com/arinwangyile)
 
-**5. Resume Value**
-- Demonstrates end-to-end IR + NLP + scraping + backend integration.
-- Useful for roles in ML engineering, data science, search, and AI product design.
-- Highly modular: extensible into product-grade or research projects.
 
 ---
 
