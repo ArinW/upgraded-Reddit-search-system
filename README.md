@@ -1,95 +1,113 @@
-# Reddit-recommendation-system
+# 🔍 Reddit Tech Job-Related Post Recommendation System
 
+Welcome to our Reddit Job Post Recommendation System — an intelligent search engine built for tech job seekers navigating Reddit. Instead of sifting through noisy posts or relying on Reddit's basic keyword matching, our system helps you **surface the most relevant job-related posts** using your custom list of interests.
 
-# Reddit Recommendation System with IR + Web Agent
+## Motivation
 
-A smart recommendation system for Reddit that combines Information Retrieval techniques and Web Agent automation to deliver personalized, relevant content—helping users discover high-quality posts beyond their usual feed.
+Reddit is a powerful platform filled with job opportunities and discussions, but its native search is:
 
-![Architecture](path/to/system_architecture.png)
+* 🔎 Primitive (exact keyword matches only)
+* 😵‍💫 Noisy (irrelevant or outdated posts)
+* 😞 Not designed for job seekers
 
-## Features
+**Our system fixes that** by:
 
-- Semantic search over Reddit posts using embeddings or TF-IDF
-- Personalized recommendations based on user interests or upvote history
-- Web Agent to collect and update live Reddit data
-- Web interface for query-based search and interaction
-- Evaluation framework for measuring personalization quality
+* Reading a large curated list of job-related keywords from `keywords.txt`
+* Scanning across multiple subreddits
+* Extracting posts **only if they contain all the keyword terms anywhere in the post** (flexible AND precise)
+* Providing clean results with **title**, **upvotes**, and **direct link** for review
 
-## Project Structure
+## 🆚 Side-by-Side Comparison
 
-```
-reddit-recommender/
-├── data/                 # Stored Reddit post data
-├── src/                  # Core scripts: crawler, IR engine, personalization
-│   ├── crawler.py
-│   ├── ir_engine.py
-│   ├── recommend.py
-│   └── evaluate.py
-├── app/                  # Streamlit app
-│   └── app.py
-├── demo_notebooks/       # Interactive walkthroughs
-├── requirements.txt
-├── README.md
-└── system_architecture.png
-```
+| Feature                      | Reddit Native Search | Our System                                      |
+| ---------------------------- | -------------------- | ----------------------------------------------- |
+| Fuzzy Match Support          | ❌                    | ✅ (checks if all keywords are present anywhere) |
+| Scans Multiple Subreddits    | ❌                    | ✅                                               |
+| Structured Output            | ❌                    | ✅ (CSV or DataFrame)                            |
+| Supports Large Keyword Lists | ❌                    | ✅ (over 400 custom terms)                       |
+| Eliminates Redundancy        | ❌                    | ✅                                               |
 
-## Web Demo
+### 🔎 Example Comparison (Screenshots)
 
-Run the Streamlit interface locally:
+#### Reddit Native Search for: `deep learning career`
 
-```bash
-pip install -r requirements.txt
-streamlit run app/app.py
-```
+![Reddit Search](./screenshots/reddit_native.png)
 
-### Interface Features:
-- Input a search query (e.g., "AI in healthcare")
-- View top Reddit post matches
-- Filter by subreddit, recency, or user profile
-- (Optional) Rate post relevance to improve personalization
+#### Our System Output for Same Query:
 
-## How It Works
+![Our System Output](./screenshots/our_system_output.png)
 
-1. Data Collection: Crawler pulls posts from Reddit via API.
-2. IR Pipeline: Text is vectorized using TF-IDF or embeddings (e.g., OpenAI or SBERT).
-3. Ranking: Similarity scores computed for each post (cosine similarity or BM25).
-4. Personalization Layer: Re-ranks posts based on a user’s history or simulated preferences.
-5. Interface: Streamlit app enables querying, filtering, and interaction.
-6. Evaluation: Offline metrics (NDCG, diversity) and mock feedback used to assess personalization quality.
-
-## Evaluation: Measuring Personalization
-
-- Offline: Run `evaluate.py` using mock user profiles
-- Metrics: NDCG, Personalization@K, Intra-list diversity, Serendipity
-- Comparison: Personalized vs. non-personalized outputs
-- User Study (optional): Ask users to rate result sets
-
-## Example Commands
-
-```bash
-# Recommend posts based on a query
-python src/recommend.py --query "best LLMs for education" --top_k 5
-
-# Recommend based on user history
-python src/recommend.py --user mock_user --mode history
-```
-
-## TODOs / Future Work
-
-- [ ] Deploy Streamlit app to HuggingFace Spaces
-- [ ] Add feedback-based online learning loop
-- [ ] Support subreddit recommendation
-- [ ] Add caching layer for faster retrieval
-
-## Author
-
-Yile Wang  
-M.S. in Data Science | NLP + IR + ML Engineer  
-GitHub: [@arinwangyile](https://github.com/arinwangyile)
-
+*(Notice how our system filters directly relevant posts with clean metadata and links!)*
 
 ---
 
-**6. Architecture Diagram**
-![Reddit Recommendation System Architecture](A_schematic_diagram_illustrates_a_Reddit_Recommend.png)
+## 📁 Project Structure
+
+```
+├── crawler.py              # Crawls Reddit for posts containing any keyword from keywords.txt
+├── keywords.txt            # List of keywords used for job search
+├── recommend.ipynb         # Jupyter notebook to refine, recommend, and visualize results
+├── screenshots/            # Folder containing visual comparison images
+```
+
+---
+
+## 🛠 How to Run
+
+### 1. Clone the Repo
+
+```bash
+git clone https://github.com/YOUR_USERNAME/Reddit-recommendation-system.git
+cd Reddit-recommendation-system
+```
+
+### 2. Set Up Python Environment
+
+```bash
+python3 -m venv venv
+source venv/bin/activate
+pip install praw pandas
+```
+
+### 3. Configure Reddit API
+
+Edit the `crawler.py` file and insert your Reddit API credentials:
+
+```python
+reddit = praw.Reddit(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_SECRET",
+    user_agent="recommendation-script"
+)
+```
+
+You can register your app here: [Reddit Apps](https://www.reddit.com/prefs/apps)
+
+### 4. Run the Crawler
+
+```bash
+python crawler.py
+```
+
+You’ll get a structured CSV/printout of all relevant posts!
+
+### 5. Post-processing & Recommendation
+
+Open the notebook:
+
+```bash
+jupyter notebook recommend.ipynb
+```
+
+Use it to filter by subreddit, visualize keyword heatmaps, and customize top picks.
+
+---
+
+## 💡 Future Work
+
+* Integrate sentence embeddings for smarter relevance scoring
+* Add time-based filtering (e.g., last week only)
+* Build a web dashboard to browse and bookmark job posts
+
+
 
