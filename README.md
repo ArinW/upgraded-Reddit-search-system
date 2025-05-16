@@ -81,7 +81,7 @@ The difference is clear—our system returns clean, concise, and on-topic result
 ├── keywords.txt            # List of job-related and control keywords
 ├── recommend.ipynb         # Notebook for post-processing, filtering, and visualization
 ├── screenshots/            # Folder for visual comparisons
-├── data/                   # (optional) directory for saving crawled results
+├── data/                   # directory for saving crawled results (after fun crawler.py)
 ```
 
 ## How to Run
@@ -96,15 +96,9 @@ cd Reddit-recommendation-system
 ### 2. Set Up the Python Environment
 
 ```bash
-python3 -m venv venv
-source venv/bin/activate
+conda create -n reddit-job-rec python=3.8
+conda activate reddit-job-rec
 pip install -r requirements.txt
-```
-
-If `requirements.txt` is missing, install manually:
-
-```bash
-pip install praw pandas
 ```
 
 ### 3. Configure Reddit API Credentials
