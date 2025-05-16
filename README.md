@@ -1,87 +1,105 @@
-# 🔍 Reddit Tech Job-Related Post Recommendation System
+# Reddit Tech Job-Related Post Recommendation System
 
-Welcome to our Reddit Job Post Recommendation System — an intelligent search engine built for tech job seekers navigating Reddit. Instead of sifting through noisy posts or relying on Reddit's basic keyword matching, our system helps you **surface the most relevant job-related posts** using your custom list of interests.
+This project presents an intelligent Reddit crawler and recommender system tailored for job seekers in the tech industry. Unlike Reddit’s native keyword search—which is limited, noisy, and poorly suited for complex queries—our system surfaces the most relevant job-related posts based on a rich, curated set of user-defined interests.
 
 ## Motivation
 
-Reddit is a powerful platform filled with job opportunities and discussions, but its native search is:
+Reddit hosts a wealth of career-related discussions and job opportunities. However, its default search mechanism suffers from several limitations:
 
-* 🔎 Primitive (exact keyword matches only)
-* 😵‍💫 Noisy (irrelevant or outdated posts)
-* 😞 Not designed for job seekers
+* Exact keyword match only, without semantic understanding
+* Noisy results, often showing outdated or irrelevant content
+* Prioritization based on upvotes, not relevance
+* Inability to handle complex queries with multiple terms
+* Limited scope to a single subreddit at a time
 
-**Our system fixes that** by:
+This system was built to overcome those challenges and offer job seekers a structured, customizable, and accurate way to explore Reddit for career opportunities.
 
-* Reading a large curated list of job-related keywords from `keywords.txt`
-* Scanning across multiple subreddits
-* Extracting posts **only if they contain all the keyword terms anywhere in the post** (flexible AND precise)
-* Providing clean results with **title**, **upvotes**, and **direct link** for review
+## Data
 
-## 🆚 Side-by-Side Comparison
+We constructed a balanced dataset with both job-related and non-job-related Reddit posts, such as those related to university admissions. This allowed us to benchmark how effectively our system can distinguish between highly relevant, weakly relevant, and irrelevant content.
 
-| Feature                      | Reddit Native Search | Our System                                      |
-| ---------------------------- | -------------------- | ----------------------------------------------- |
-| Fuzzy Match Support          | ❌                    | ✅ (checks if all keywords are present anywhere) |
-| Scans Multiple Subreddits    | ❌                    | ✅                                               |
-| Structured Output            | ❌                    | ✅ (CSV or DataFrame)                            |
-| Supports Large Keyword Lists | ❌                    | ✅ (over 400 custom terms)                       |
-| Eliminates Redundancy        | ❌                    | ✅                                               |
+* Job-related keywords: \~500 terms curated with the help of GPT
+* Noise injection: \~100 non-job-related academic and admission terms to test filtering robustness
+* Mixed subreddit sources for diversity
+* Screenshots comparing baseline vs. filtered outputs (see below)
 
-### 🔎 Example Comparison (Screenshots)
+## Key Features
 
-#### Reddit Native Search for: `deep learning career`
+Our system improves on Reddit's native search by:
 
+* Reading from a customizable list of job-related keywords (`keywords.txt`)
+* Scanning multiple subreddits in parallel
+* Extracting posts where all keywords are present anywhere in the post (non-adjacent matching)
+* Filtering duplicates and irrelevant matches
+* Outputting structured results with post title, upvotes, and a direct link for easy navigation
+
+## Comparison with Reddit Native Search
+
+| Feature                       | Reddit Native Search | This System                               |
+| ----------------------------- | -------------------- | ----------------------------------------- |
+| Fuzzy or Partial Match        | No                   | Yes (all keyword terms present, anywhere) |
+| Multi-Subreddit Search        | No                   | Yes                                       |
+| Structured Output             | No                   | Yes (CSV or DataFrame format)             |
+| Long Complex Queries          | Poor support         | Fully supported                           |
+| Redundancy Elimination        | No                   | Yes                                       |
+| Handles Noise/False Positives | No                   | Yes                                       |
+
+### Example Comparison (Screenshots)
+
+**Reddit Native Search Result for**: `deep learning career`
 ![Reddit Search](./screenshots/reddit_native.png)
 
-#### Our System Output for Same Query:
-
+**Our System Output for the Same Query**
 ![Our System Output](./screenshots/our_system_output.png)
 
-*(Notice how our system filters directly relevant posts with clean metadata and links!)*
+The difference is clear—our system returns clean, concise, and on-topic results.
 
----
-
-## 📁 Project Structure
+## Project Structure
 
 ```
-├── crawler.py              # Crawls Reddit for posts containing any keyword from keywords.txt
-├── keywords.txt            # List of keywords used for job search
-├── recommend.ipynb         # Jupyter notebook to refine, recommend, and visualize results
-├── screenshots/            # Folder containing visual comparison images
+├── crawler.py              # Core Reddit crawler using PRAW and keyword matching
+├── keywords.txt            # List of job-related and control keywords
+├── recommend.ipynb         # Notebook for post-processing, filtering, and visualization
+├── screenshots/            # Folder for visual comparisons
+├── data/                   # (optional) directory for saving crawled results
 ```
 
----
+## How to Run
 
-## 🛠 How to Run
-
-### 1. Clone the Repo
+### 1. Clone the Repository
 
 ```bash
 git clone https://github.com/YOUR_USERNAME/Reddit-recommendation-system.git
 cd Reddit-recommendation-system
 ```
 
-### 2. Set Up Python Environment
+### 2. Set Up the Python Environment
 
 ```bash
 python3 -m venv venv
 source venv/bin/activate
+pip install -r requirements.txt
+```
+
+If `requirements.txt` is missing, install manually:
+
+```bash
 pip install praw pandas
 ```
 
-### 3. Configure Reddit API
+### 3. Configure Reddit API Credentials
 
-Edit the `crawler.py` file and insert your Reddit API credentials:
+Edit `crawler.py` and replace the credentials:
 
 ```python
 reddit = praw.Reddit(
     client_id="YOUR_CLIENT_ID",
-    client_secret="YOUR_SECRET",
-    user_agent="recommendation-script"
+    client_secret="YOUR_CLIENT_SECRET",
+    user_agent="reddit-job-search"
 )
 ```
 
-You can register your app here: [Reddit Apps](https://www.reddit.com/prefs/apps)
+Create your Reddit API credentials here: [https://www.reddit.com/prefs/apps](https://www.reddit.com/prefs/apps)
 
 ### 4. Run the Crawler
 
@@ -89,25 +107,34 @@ You can register your app here: [Reddit Apps](https://www.reddit.com/prefs/apps)
 python crawler.py
 ```
 
-You’ll get a structured CSV/printout of all relevant posts!
+The script will parse subreddits and save all matching posts to a file or display them in the terminal.
 
-### 5. Post-processing & Recommendation
+### 5. Explore and Refine Recommendations
 
-Open the notebook:
+Launch the Jupyter notebook for deeper filtering and analysis:
 
 ```bash
 jupyter notebook recommend.ipynb
 ```
 
-Use it to filter by subreddit, visualize keyword heatmaps, and customize top picks.
+Use the notebook to:
 
----
+* Filter by specific keywords or topics
+* Visualize distribution of keywords
+* Rank posts based on score or recency
 
-## 💡 Future Work
+## Real-Time Updates
 
-* Integrate sentence embeddings for smarter relevance scoring
-* Add time-based filtering (e.g., last week only)
-* Build a web dashboard to browse and bookmark job posts
+The system supports saving and updating outputs via `.pkl` files, allowing you to maintain a real-time updated dataset that supports:
 
+* Incremental additions
+* Post deduplication
+* History-aware filtering
 
+## Future Work
+
+* Integrate transformer-based sentence embeddings for semantic search
+* Introduce date filtering (e.g., posts from the last 7 days)
+* Build a lightweight web dashboard to visualize and interact with results
+* Enable Reddit comment analysis for deeper context scoring
 
