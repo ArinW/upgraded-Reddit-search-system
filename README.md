@@ -16,8 +16,6 @@ This system was built to overcome those challenges and offer job seekers a struc
 
 Here is the refined `## Data` section with improved flow, clarity, and formatting—ready to be used in your `README.md`:
 
----
-
 ## Data
 
 To evaluate the effectiveness of our Reddit Job Post Recommendation System, we built a **balanced dataset** that includes both job-related and non-job-related posts. This allows us to test the system's ability to distinguish between:
@@ -80,6 +78,7 @@ The difference is clear—our system returns clean, concise, and on-topic result
 ├── crawler.py              # Core Reddit crawler using PRAW and keyword matching
 ├── keywords.txt            # List of job-related and control keywords
 ├── recommend.ipynb         # Notebook for post-processing, filtering, and visualization
+├── requirements.txt        # required library
 ├── screenshots/            # Folder for visual comparisons
 ├── data/                   # directory for saving crawled results (after fun crawler.py)
 ```
