@@ -1,6 +1,6 @@
-# Reddit Tech Job-Related Post Recommendation System
+# Reddit Tech Job-Related Post Search System
 
-This project presents an intelligent Reddit crawler and recommender system tailored for job seekers in the tech industry. Unlike Reddit’s native keyword search—which is limited, noisy, and poorly suited for complex queries—our system surfaces the most relevant job-related posts based on a rich, curated set of user-defined interests.
+This project presents an intelligent Reddit crawler and search system tailored for job seekers in the tech industry. Unlike Reddit’s native keyword search—which is limited, noisy, and poorly suited for complex queries—our system surfaces the most relevant job-related posts based on a rich, curated set of user-defined interests.
 
 ## Motivation
 
@@ -18,7 +18,7 @@ Here is the refined `## Data` section with improved flow, clarity, and formattin
 
 ## Data
 
-To evaluate the effectiveness of our Reddit Job Post Recommendation System, we built a **balanced dataset** that includes both job-related and non-job-related posts. This allows us to test the system's ability to distinguish between:
+To evaluate the effectiveness of our Reddit Job Post Search System, we built a **balanced dataset** that includes both job-related and non-job-related posts. This allows us to test the system's ability to distinguish between:
 
 * **Highly relevant** (e.g., actual job listings, interview tips)
 * **Weakly relevant** (e.g., discussions tangential to jobs)
@@ -80,7 +80,7 @@ The difference is clear—our system returns clean, concise, and on-topic result
 ├── recommend.ipynb         # Notebook for post-processing, filtering, and visualization
 ├── requirements.txt        # Required library
 ├── screenshots/            # Folder for visual comparisons
-├── data/                   # Directory for saving crawled results (after fun crawler.py)
+├── data/                   # Directory for saving crawled results (after run crawler.py)
 ```
 
 ## How to Run
@@ -88,15 +88,15 @@ The difference is clear—our system returns clean, concise, and on-topic result
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/ArinW/Reddit-recommendation-system.git
-cd Reddit-recommendation-system
+git clone https://github.com/ArinW/upgraded-Reddit-search-system.git
+cd upgraded-Reddit-search-system
 ```
 
 ### 2. Set Up the Python Environment
 
 ```bash
-conda create -n reddit-job-rec python=3.8
-conda activate reddit-job-rec
+conda create -n reddit-job python=3.8
+conda activate reddit-job
 pip install -r requirements.txt
 ```
 
