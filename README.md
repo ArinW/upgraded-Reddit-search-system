@@ -88,7 +88,7 @@ The difference is clear—our system returns clean, concise, and on-topic result
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/Reddit-recommendation-system.git
+git clone https://github.com/ArinW/Reddit-recommendation-system.git
 cd Reddit-recommendation-system
 ```
 
