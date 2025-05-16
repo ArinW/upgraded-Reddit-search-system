@@ -23,6 +23,10 @@ We constructed a balanced dataset with both job-related and non-job-related Redd
 * Mixed subreddit sources for diversity
 * Screenshots comparing baseline vs. filtered outputs (see below)
 
+Overview of data here: https://drive.google.com/file/d/19-L9uokhJ72hHRwOqGjXF28cygm3ZcYa/view
+data info here: Data info.jpg
+sample data here: Sample data.jpg
+(if you get a slightly different number of post after fun our code, it may because more post are create recently with given key words)
 ## Key Features
 
 Our system improves on Reddit's native search by:
