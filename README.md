@@ -78,9 +78,9 @@ The difference is clear—our system returns clean, concise, and on-topic result
 ├── crawler.py              # Core Reddit crawler using PRAW and keyword matching
 ├── keywords.txt            # List of job-related and control keywords
 ├── recommend.ipynb         # Notebook for post-processing, filtering, and visualization
-├── requirements.txt        # required library
+├── requirements.txt        # Required library
 ├── screenshots/            # Folder for visual comparisons
-├── data/                   # directory for saving crawled results (after fun crawler.py)
+├── data/                   # Directory for saving crawled results (after fun crawler.py)
 ```
 
 ## How to Run
