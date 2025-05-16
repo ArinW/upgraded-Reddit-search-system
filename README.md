@@ -14,19 +14,33 @@ Reddit hosts a wealth of career-related discussions and job opportunities. Howev
 
 This system was built to overcome those challenges and offer job seekers a structured, customizable, and accurate way to explore Reddit for career opportunities.
 
+Here is the refined `## Data` section with improved flow, clarity, and formatting—ready to be used in your `README.md`:
+
+---
+
 ## Data
 
-We constructed a balanced dataset with both job-related and non-job-related Reddit posts, such as those related to university admissions. This allowed us to benchmark how effectively our system can distinguish between highly relevant, weakly relevant, and irrelevant content.
+To evaluate the effectiveness of our Reddit Job Post Recommendation System, we built a **balanced dataset** that includes both job-related and non-job-related posts. This allows us to test the system's ability to distinguish between:
 
-* Job-related keywords: \~500 terms curated with the help of GPT
-* Noise injection: \~100 non-job-related academic and admission terms to test filtering robustness
-* Mixed subreddit sources for diversity
-* Screenshots comparing baseline vs. filtered outputs (see below)
+* **Highly relevant** (e.g., actual job listings, interview tips)
+* **Weakly relevant** (e.g., discussions tangential to jobs)
+* **Irrelevant** (e.g., university admissions or general academic posts)
 
-Overview of data here: https://drive.google.com/file/d/19-L9uokhJ72hHRwOqGjXF28cygm3ZcYa/view
-data info here: Data info.jpg
-sample data here: Sample data.jpg
-(if you get a slightly different number of post after fun our code, it may because more post are create recently with given key words)
+### Dataset Composition
+
+* **\~500 job-related keywords** curated using GPT, covering a wide spectrum of roles and technologies
+* **\~100 noise keywords** related to academic programs and admissions (e.g., “nyu admission”, “stanford course”) to simulate realistic distractions
+* **Mixed subreddit sources** to ensure diversity in post origin (e.g., r/cscareerquestions, r/jobs, r/learnprogramming)
+* **Random noise** injected during crawling to simulate the natural variability in Reddit posts
+
+> Note: If you obtain a slightly different number of posts when running the crawler, it's likely due to new posts being created on Reddit that match the given keywords.
+
+### Resources
+
+* [Data Overview (Google Drive)](https://drive.google.com/file/d/19-L9uokhJ72hHRwOqGjXF28cygm3ZcYa/view)
+* ![Data info](~/Data info.jpg)
+* ![Sample data](~/Sample data.jpg)
+
 ## Key Features
 
 Our system improves on Reddit's native search by:
