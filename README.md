@@ -38,8 +38,8 @@ To evaluate the effectiveness of our Reddit Job Post Recommendation System, we b
 ### Resources
 
 * [Data Overview (Google Drive)](https://drive.google.com/file/d/19-L9uokhJ72hHRwOqGjXF28cygm3ZcYa/view)
-* ![Data info](~/Data info.jpg)
-* ![Sample data](~/Sample data.jpg)
+* ![Data info](./Data info.jpg)
+* ![Sample data](./Sample data.jpg)
 
 ## Key Features
 
