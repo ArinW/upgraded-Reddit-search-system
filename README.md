@@ -1,95 +1,140 @@
-# Reddit-recommendation-system
+# Reddit Tech Job-Related Post Recommendation System
 
+This project presents an intelligent Reddit crawler and recommender system tailored for job seekers in the tech industry. Unlike Reddit’s native keyword search—which is limited, noisy, and poorly suited for complex queries—our system surfaces the most relevant job-related posts based on a rich, curated set of user-defined interests.
 
-# Reddit Recommendation System with IR + Web Agent
+## Motivation
 
-A smart recommendation system for Reddit that combines Information Retrieval techniques and Web Agent automation to deliver personalized, relevant content—helping users discover high-quality posts beyond their usual feed.
+Reddit hosts a wealth of career-related discussions and job opportunities. However, its default search mechanism suffers from several limitations:
 
-![Architecture](path/to/system_architecture.png)
+* Exact keyword match only, without semantic understanding
+* Noisy results, often showing outdated or irrelevant content
+* Prioritization based on upvotes, not relevance
+* Inability to handle complex queries with multiple terms
+* Limited scope to a single subreddit at a time
 
-## Features
+This system was built to overcome those challenges and offer job seekers a structured, customizable, and accurate way to explore Reddit for career opportunities.
 
-- Semantic search over Reddit posts using embeddings or TF-IDF
-- Personalized recommendations based on user interests or upvote history
-- Web Agent to collect and update live Reddit data
-- Web interface for query-based search and interaction
-- Evaluation framework for measuring personalization quality
+## Data
+
+We constructed a balanced dataset with both job-related and non-job-related Reddit posts, such as those related to university admissions. This allowed us to benchmark how effectively our system can distinguish between highly relevant, weakly relevant, and irrelevant content.
+
+* Job-related keywords: \~500 terms curated with the help of GPT
+* Noise injection: \~100 non-job-related academic and admission terms to test filtering robustness
+* Mixed subreddit sources for diversity
+* Screenshots comparing baseline vs. filtered outputs (see below)
+
+## Key Features
+
+Our system improves on Reddit's native search by:
+
+* Reading from a customizable list of job-related keywords (`keywords.txt`)
+* Scanning multiple subreddits in parallel
+* Extracting posts where all keywords are present anywhere in the post (non-adjacent matching)
+* Filtering duplicates and irrelevant matches
+* Outputting structured results with post title, upvotes, and a direct link for easy navigation
+
+## Comparison with Reddit Native Search
+
+| Feature                       | Reddit Native Search | This System                               |
+| ----------------------------- | -------------------- | ----------------------------------------- |
+| Fuzzy or Partial Match        | No                   | Yes (all keyword terms present, anywhere) |
+| Multi-Subreddit Search        | No                   | Yes                                       |
+| Structured Output             | No                   | Yes (CSV or DataFrame format)             |
+| Long Complex Queries          | Poor support         | Fully supported                           |
+| Redundancy Elimination        | No                   | Yes                                       |
+| Handles Noise/False Positives | No                   | Yes                                       |
+
+### Example Comparison (Screenshots)
+
+**Reddit Native Search Result for**: `deep learning career`
+![Reddit Search](./screenshots/reddit_native.png)
+
+**Our System Output for the Same Query**
+![Our System Output](./screenshots/our_system_output.png)
+
+The difference is clear—our system returns clean, concise, and on-topic results.
 
 ## Project Structure
 
 ```
-reddit-recommender/
-├── data/                 # Stored Reddit post data
-├── src/                  # Core scripts: crawler, IR engine, personalization
-│   ├── crawler.py
-│   ├── ir_engine.py
-│   ├── recommend.py
-│   └── evaluate.py
-├── app/                  # Streamlit app
-│   └── app.py
-├── demo_notebooks/       # Interactive walkthroughs
-├── requirements.txt
-├── README.md
-└── system_architecture.png
+├── crawler.py              # Core Reddit crawler using PRAW and keyword matching
+├── keywords.txt            # List of job-related and control keywords
+├── recommend.ipynb         # Notebook for post-processing, filtering, and visualization
+├── screenshots/            # Folder for visual comparisons
+├── data/                   # (optional) directory for saving crawled results
 ```
 
-## Web Demo
+## How to Run
 
-Run the Streamlit interface locally:
+### 1. Clone the Repository
 
 ```bash
+git clone https://github.com/YOUR_USERNAME/Reddit-recommendation-system.git
+cd Reddit-recommendation-system
+```
+
+### 2. Set Up the Python Environment
+
+```bash
+python3 -m venv venv
+source venv/bin/activate
 pip install -r requirements.txt
-streamlit run app/app.py
 ```
 
-### Interface Features:
-- Input a search query (e.g., "AI in healthcare")
-- View top Reddit post matches
-- Filter by subreddit, recency, or user profile
-- (Optional) Rate post relevance to improve personalization
-
-## How It Works
-
-1. Data Collection: Crawler pulls posts from Reddit via API.
-2. IR Pipeline: Text is vectorized using TF-IDF or embeddings (e.g., OpenAI or SBERT).
-3. Ranking: Similarity scores computed for each post (cosine similarity or BM25).
-4. Personalization Layer: Re-ranks posts based on a user’s history or simulated preferences.
-5. Interface: Streamlit app enables querying, filtering, and interaction.
-6. Evaluation: Offline metrics (NDCG, diversity) and mock feedback used to assess personalization quality.
-
-## Evaluation: Measuring Personalization
-
-- Offline: Run `evaluate.py` using mock user profiles
-- Metrics: NDCG, Personalization@K, Intra-list diversity, Serendipity
-- Comparison: Personalized vs. non-personalized outputs
-- User Study (optional): Ask users to rate result sets
-
-## Example Commands
+If `requirements.txt` is missing, install manually:
 
 ```bash
-# Recommend posts based on a query
-python src/recommend.py --query "best LLMs for education" --top_k 5
-
-# Recommend based on user history
-python src/recommend.py --user mock_user --mode history
+pip install praw pandas
 ```
 
-## TODOs / Future Work
+### 3. Configure Reddit API Credentials
 
-- [ ] Deploy Streamlit app to HuggingFace Spaces
-- [ ] Add feedback-based online learning loop
-- [ ] Support subreddit recommendation
-- [ ] Add caching layer for faster retrieval
+Edit `crawler.py` and replace the credentials:
 
-## Author
+```python
+reddit = praw.Reddit(
+    client_id="YOUR_CLIENT_ID",
+    client_secret="YOUR_CLIENT_SECRET",
+    user_agent="reddit-job-search"
+)
+```
 
-Yile Wang  
-M.S. in Data Science | NLP + IR + ML Engineer  
-GitHub: [@arinwangyile](https://github.com/arinwangyile)
+Create your Reddit API credentials here: [https://www.reddit.com/prefs/apps](https://www.reddit.com/prefs/apps)
 
+### 4. Run the Crawler
 
----
+```bash
+python crawler.py
+```
 
-**6. Architecture Diagram**
-![Reddit Recommendation System Architecture](A_schematic_diagram_illustrates_a_Reddit_Recommend.png)
+The script will parse subreddits and save all matching posts to a file or display them in the terminal.
+
+### 5. Explore and Refine Recommendations
+
+Launch the Jupyter notebook for deeper filtering and analysis:
+
+```bash
+jupyter notebook recommend.ipynb
+```
+
+Use the notebook to:
+
+* Filter by specific keywords or topics
+* Visualize distribution of keywords
+* Rank posts based on score or recency
+
+## Real-Time Updates
+
+The system supports saving and updating outputs via `.pkl` files, allowing you to maintain a real-time updated dataset that supports:
+
+* Incremental additions
+* Post deduplication
+* History-aware filtering
+
+## Future Work
+
+* Integrate transformer-based sentence embeddings for semantic search
+* Introduce date filtering (e.g., posts from the last 7 days)
+* Build a lightweight web dashboard to visualize and interact with results
+* Enable Reddit comment analysis for deeper context scoring
 
