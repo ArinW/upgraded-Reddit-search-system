@@ -64,11 +64,11 @@ Our system improves on Reddit's native search by:
 
 ### Example Comparison (Screenshots)
 
-**Reddit Native Search Result for**: `deep learning career`
-![Reddit Search](./screenshots/reddit_native.png)
+**Reddit Native Search Result for**: ` I am a JHU graduate student in data science, looking for internships in machine learning`
+![Reddit Search](./screenshots/reddit_native.jpg)
 
 **Our System Output for the Same Query**
-![Our System Output](./screenshots/our_system_output.png)
+![Our System Output](./screenshots/our_system_output.jpg)
 
 The difference is clear—our system returns clean, concise, and on-topic results.
 
